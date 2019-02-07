@@ -6,6 +6,13 @@ ALGORITHM_FILES = dict(
     gigica="icatb_gigicar",
     dualregress="icatb_dualregress"
 )
+PREPROC_TYPES = dict(
+    time_mean=1,
+    voxel_mean=2,
+    intensity_norm=3,
+    variance_norm=4
+)
+DEFAULT_PREPROC = "time_mean"
 DEFAULT_ALGORITHM = "gigica"
 DEFAULT_MASK = "mask.nii"
 DEFAULT_ICA_SIG = "ica_sig.mat"
@@ -20,6 +27,9 @@ class BackReconInputSpec(MatlabInputSpec):
                       desc='Mask to use for Back-Reconstruction')
     ica_sig = traits.Str(mandatory=True,
                          desc=".Mat file containing ICA Signals")
+    preproc_type = traits.Str(mandatory=False,
+                              default_value=
+                              desc="")
     files = traits.List(mandatory=True,
                         desc='List of Files for Back-Reconstruction')
 
@@ -60,16 +70,19 @@ class BackRecon(MatlabCommand):
             mask = load('%s');
             mask_data = mask.mask;
             for i = 1:length(files)
+                disp(files{i});
                 nii = load_nii(files{i});
-                data = reshape(nii.img, [prod(size(nii.img)(1:3)), size(nii.img, 4)]);
-                masked_data = data(mask==1, :);
-                data = icatb_preproc_data(masked_data);
+                s = size(nii.img);
+                data = reshape(nii.img, [prod(s(1:3)), s(4)]);
+                masked_data = data(mask_data==1, :);
+                data = icatb_preproc_data(masked_data, %d, 1);
                 [TC, SM] = %s(data, ica_sig);
                 save([files{i} '.backrecon.mat'],'TC','SM')
             end
         """ % (self.inputs.ica_sig,
                files_line,
                self.inputs.mask,
+               PREPROC_TYPES.get(self.inputs.preproc_type, DEFAULT_PREPROC),
                ALGORITHM_FILES.get(self.inputs.algorithm, DEFAULT_ALGORITHM)
                )
         print("MATLAB SCRIPT IS %s" % script)
