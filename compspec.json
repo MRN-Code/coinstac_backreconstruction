@@ -7,14 +7,14 @@
     },
     "computation": {
         "type": "docker",
-        "dockerImage": "backrecon",
+        "dockerImage": "cs_backrecon",
         "command": [
             "python",
             "\/computation\/local.py"
         ],
         "remote": {
             "type": "docker",
-            "dockerImage": "backrecon",
+            "dockerImage": "cs_backrecon",
             "command": [
                 "python",
                 "\/computation\/remote.py"
