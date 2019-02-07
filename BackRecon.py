@@ -28,7 +28,7 @@ class BackReconInputSpec(MatlabInputSpec):
     ica_sig = traits.Str(mandatory=True,
                          desc=".Mat file containing ICA Signals")
     preproc_type = traits.Str(mandatory=False,
-                              default_value=
+                              default_value=DEFAULT_PREPROC,
                               desc="")
     files = traits.List(mandatory=True,
                         desc='List of Files for Back-Reconstruction')
@@ -82,8 +82,8 @@ class BackRecon(MatlabCommand):
         """ % (self.inputs.ica_sig,
                files_line,
                self.inputs.mask,
-               PREPROC_TYPES.get(self.inputs.preproc_type, DEFAULT_PREPROC),
-               ALGORITHM_FILES.get(self.inputs.algorithm, DEFAULT_ALGORITHM)
+               PREPROC_TYPES.get(self.inputs.preproc_type, 1),
+               ALGORITHM_FILES.get(self.inputs.algorithm, "icatb_gigicar")
                )
         print("MATLAB SCRIPT IS %s" % script)
         return script
