@@ -16,6 +16,7 @@ DEFAULT_PREPROC = "time_mean"
 DEFAULT_ALGORITHM = "gigica"
 DEFAULT_MASK = "mask.nii"
 DEFAULT_ICA_SIG = "ica_sig.mat"
+DEFAULT_ICA_VARNAME = "SM"
 
 
 class BackReconInputSpec(MatlabInputSpec):
@@ -27,6 +28,8 @@ class BackReconInputSpec(MatlabInputSpec):
                       desc='Mask to use for Back-Reconstruction')
     ica_sig = traits.Str(mandatory=True,
                          desc=".Mat file containing ICA Signals")
+    ica_varname = traits.Str(mandatory=True,
+                             desc="Variable name to load from the signal file")
     preproc_type = traits.Str(mandatory=False,
                               default_value=DEFAULT_PREPROC,
                               desc="")
@@ -54,6 +57,8 @@ class BackRecon(MatlabCommand):
     >>> recon.inputs.files = ['subject_1.nii', 'subject_2.nii']
     >>> recon.inputs.mask = 'mask.nii'
     >>> recon.inputs.ica_sig = 'gica_signal.mat'
+    >>> recon.inputs.ica_varname = 'SM'
+    >>> recon.inputs.preproc_type = 'time_mean'
     >>> recon.inputs.algorithm = 'gigica'
     >>> out = recon.run()
     """
