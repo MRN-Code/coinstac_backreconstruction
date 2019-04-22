@@ -4,9 +4,9 @@ import sys
 from ancillary import list_recursive
 
 
-def remote_noop(args):
+def br_remote_noop(args):
 
-    computation_output = {"output": {}, "success": True}
+    computation_output = {"output": {"computation_phase": "br_remote_noop"}, "success": True}
     return json.dumps(computation_output)
 
 

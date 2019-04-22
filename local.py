@@ -4,7 +4,7 @@ from BackRecon import BackRecon
 from ancillary import list_recursive
 
 
-def local_backreconstruct(args):
+def br_local_1(args):
 
     recon = BackRecon()
     recon.inputs.files = args["input"]["file_names"]
@@ -15,7 +15,7 @@ def local_backreconstruct(args):
     recon.inputs.algorithm = args["input"]["algorithm"]
     out = recon.run()
 
-    output_dict = {'output_files': [], 'computation_phase': 'local_backreconstruct'}
+    output_dict = {'output_files': [], 'computation_phase': 'br_local_1'}
     cache_dict = {}
     computation_output = {"output": output_dict, "cache": cache_dict, "success": True}
 
