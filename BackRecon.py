@@ -90,7 +90,7 @@ class BackRecon(MatlabCommand):
                PREPROC_TYPES.get(self.inputs.preproc_type, 1),
                ALGORITHM_FILES.get(self.inputs.algorithm, "icatb_gigicar")
                )
-        print("MATLAB SCRIPT IS %s" % script)
+        #print("MATLAB SCRIPT IS %s" % script)
         return script
 
     def run(self, **inputs):
